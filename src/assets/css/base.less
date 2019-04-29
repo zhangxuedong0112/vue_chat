@@ -1,0 +1,189 @@
+html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    min-width: 1100px; 
+    min-height: 500px;
+    /* 最小的宽高尺寸设置 1100*/
+}
+.mac_max{
+    height: calc(100% + 32px) !important;
+}
+body,h1,h2,h3,h4,h5,h6,ul,dl,ol,dt,dd,li,p,div, plaintext {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    /* font-family: PingFangSC-Regular; */
+    font-family: PingFang SC, 微软雅黑, Microsoft YaHei !important;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+textarea, input, button, select, a, span, i, em, .el-button {
+    font-family: PingFang SC, 微软雅黑, Microsoft YaHei !important;
+    outline: none;
+}
+
+::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #c9cacf;
+    font-family: PingFang SC, 微软雅黑, Microsoft YaHei !important;
+}
+
+// 上下箭头变不成黑色，所以去掉
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+}
+
+a {
+    font-size: 12px;
+    text-decoration: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -webkit-app-region: no-drag; 
+    -ms-user-select: none;
+    user-select: none;
+}
+a:hover { cursor: pointer; }
+
+.w {
+    width: 990px;
+    margin: 0 auto;
+}
+
+.clearfix:after {
+    content: ' ';
+    height: 0;
+    line-height: 0;
+    clear: both;
+    display: block;
+    visibility: hidden;
+}
+.clearfix {
+    zoom: 1;
+}
+input, img {
+    margin: 0;
+    padding: 0;
+    border: 0 none;
+    outline-style: none;
+    -webkit-appearance: none !important;
+}
+
+ul, li {
+    list-style: none;
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+}
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+.hide_scrollbar::-webkit-scrollbar {
+    display: none;
+}
+ 
+.gap-20 {
+    margin-top: 20px;
+}
+.gap-40 {
+    margin-top: 40px;
+}
+.pad-top-40 {
+    padding-top: 40px;
+}
+.gap-5 {
+    margin-top: 5px;
+}
+.gap-10 {
+    margin-top: 10px;
+}
+.clearFix:after,.clearFix:before {
+    display: block;
+    content: ".";
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+    visibility: none;
+    clear: both;
+} 
+.line2-wrap {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+.float-right {
+    float: right;
+}
+.float-left {
+    float: left;
+}
+.text-center {
+    text-align: center;
+}
+.line-wrap {
+    /* 单行省略显示... */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+pre {
+    white-space: normal !important;
+}
+.el-carousel__container {
+    height: 100% !important;
+    position: static;
+}
+.el-tooltip__popper { 
+    padding: 4px !important; 
+    font-size: 10px !important;
+    line-height: 14px !important;
+    letter-spacing: 0.83px;
+}
+.pre{
+    width: 100%;
+    height: 100%;
+}
+.content{
+    width: 100%;
+    height: 100%;
+}
+
+.flex_center{
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+.fl { float: left; }
+.fr { float: right; }
+.ivu-icon:before,
+.ivu-icon:after {
+    font-family: Ionicons !important;
+}
+.margin_none{
+    margin: 0 !important;
+}
