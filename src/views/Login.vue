@@ -20,7 +20,7 @@
                     </Form>
                 </div>
                 <div class="footer">
-                    <Button type="success">登录</Button>
+                    <Button type="success" @click="go_home">登录</Button>
                     <Button type="info" @click="check_page('register')">注册</Button>
                 </div>
             </Card>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
     name: 'home',
@@ -93,9 +93,17 @@ export default {
         }
     },
     methods: {
+        ...mapMutations(["to_path"]),
         ...mapActions(["register"]),
         check_page(page){
             this.page = page || login;
+        },
+        go_home(){
+            window.localStorage.setItem("token","token");
+            this.to_path({
+                $router: this.$router,
+                path: "/home"
+            })
         }
     },
 }

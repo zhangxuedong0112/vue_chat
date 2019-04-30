@@ -9,7 +9,12 @@ export default new Vuex.Store({
         
     },
     mutations: {
-
+        to_path (state, payload) {
+            payload.$router.push({  //核心语句
+                path: payload.path,   //跳转的路径
+                query: payload.query || {},//传递的参数
+            })
+        }
     },
     actions: {
         register({commit,state}, payload){
