@@ -26,7 +26,7 @@ const router = new Router({
       component: login
     }
   ],
-  scrollBehavior (to, from, savedPosition) {//滚动条，
+  scrollBehavior (to, from, savedPosition) {//滚动条 ，
     if (savedPosition) {
       return savedPosition
     } else {
