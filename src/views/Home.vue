@@ -8,57 +8,25 @@
                   </a>
                   <div class="user_name">
                       <b>
-                        蜡笔小新
+                        {{user && user.name || ""}}
                       </b>
                   </div>
               </div>
               <div class="friend_pre">
                   <ul class="friend_ul">
-                      <li class="flex_center">
+                      <li class="flex_center " v-for="u in friend_list" :key="u._id" @click="start_chat(u)" :class="{'sel': u._id == to._id}" >
                           <div class="friend_detail">
                               <div class="detail1 flex_center detail">
-                                    <Badge :dot="true">
+                                    <Badge :dot="new_msg[u.user_name] && new_msg[u.user_name].from.user_name!=to.user_name && (new_msg[u.user_name] && new_msg[u.user_name].show_new)">
                                         <Avatar style="background-color: #87d068" icon="ios-person"/>
                                     </Badge>
                               </div>
                               <div class="detail2 detail">
-                                  <p class="name">小红果</p>
-                                  <p class="content">啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和</p>
+                                  <p class="name">{{u.name}}</p>
+                                  <p class="content">{{new_msg[u.user_name] && new_msg[u.user_name].txt || "无新消息"}}</p>
                               </div>
                               <div class="detail3 detail">
-                                  <p>15:50</p>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="flex_center sel">
-                          <div class="friend_detail">
-                              <div class="detail1 flex_center detail">
-                                    <Badge :dot="false">
-                                        <Avatar style="background-color: #87d068" icon="ios-person"/>
-                                    </Badge>
-                              </div>
-                              <div class="detail2 detail">
-                                  <p class="name">小红果</p>
-                                  <p class="content">啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和</p>
-                              </div>
-                              <div class="detail3 detail">
-                                  <p>15:50</p>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="flex_center">
-                          <div class="friend_detail">
-                              <div class="detail1 flex_center detail">
-                                    <Badge :dot="false">
-                                        <Avatar style="background-color: #87d068" icon="ios-person"/>
-                                    </Badge>
-                              </div>
-                              <div class="detail2 detail">
-                                  <p class="name">小红果</p>
-                                  <p class="content">啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和</p>
-                              </div>
-                              <div class="detail3 detail">
-                                  <p>15:50</p>
+                                  <p>{{new_msg[u.user_name] && new_msg[u.user_name].time || ""}}</p>
                               </div>
                           </div>
                       </li>
@@ -67,89 +35,25 @@
               </div>
           </div>
           <div class="right_pre flex_center">
-              <div class="writer_pre">
+              <div class="writer_pre" v-show="to._id">
                   <div class="msg_box">
-                      <ul class="msg_ul">
-                          <li class="">
-                              <div class="msg_detail left">
+                      <ul class="msg_ul" id="msg_box">
+                          <li class="" v-for="m in msg_list" :key="m._id">
+                              <div class="msg_detail" :class="m.from.user_name == user.user_name?'right':'left'">
                                   
                                 <div class="txt_1 flex_center">
                                     <Avatar style="background-color: #87d068" icon="ios-person"/>
-                                    <b>小红果</b>
+                                    <b>{{m.from.name}}</b>
                                 </div>
 
                                 <div class="txt_2">
                                     <p>
-                                        啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和
+                                        {{m.txt}}
                                     </p>
                                 </div>
 
                                 <div class="txt_3">
-                                    <p>15:50</p>
-                                </div>
-                              </div>
-                              
-                          </li>
-
-                          <li class="">
-                              <div class="msg_detail right">
-                                  
-                                <div class="txt_1 flex_center">
-                                    <Avatar style="background-color: #87d068" icon="ios-person"/>
-                                    <b>蜡笔小新</b>
-                                </div>
-
-                                <div class="txt_2">
-                                    <p>
-                                        啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和
-                                    </p>
-                                </div>
-
-                                <div class="txt_3">
-                                    <p>15:50</p>
-                                </div>
-                              </div>
-                              
-                          </li>
-
-                           <li class="">
-                              <div class="msg_detail left">
-                                  
-                                <div class="txt_1 flex_center">
-                                    <Avatar style="background-color: #87d068" icon="ios-person"/>
-                                    <b>小红果</b>
-                                </div>
-
-                                <div class="txt_2">
-                                    <p>
-                                        11
-                                    </p>
-                                </div>
-
-                                <div class="txt_3">
-                                    <p>15:50</p>
-                                </div>
-                              </div>
-                              
-                          </li>
-
-
-                          <li class="">
-                              <div class="msg_detail right">
-                                  
-                                <div class="txt_1 flex_center">
-                                    <Avatar style="background-color: #87d068" icon="ios-person"/>
-                                    <b>蜡笔小新</b>
-                                </div>
-
-                                <div class="txt_2">
-                                    <p>
-                                        啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和啊实打实打算结果阿什顿阿斯达克阿斯达克哈萨克的话艾肯声卡大圣皇帝和
-                                    </p>
-                                </div>
-
-                                <div class="txt_3">
-                                    <p>15:50</p>
+                                    <p>{{m.time}}</p>
                                 </div>
                               </div>
                               
@@ -160,9 +64,9 @@
                   </div>
                   <div class="edit_box">
                       <div class="eidt_txt">
-                        <textarea name="" id="" autofocus></textarea>
+                        <textarea name="" id="" autofocus v-model="msg" @keyup.enter="send_msg"></textarea>
                       </div>
-                      <Button type="success" class="send_btn">发 送</Button>
+                      <Button type="success" class="send_btn" @click="send_msg">发 送</Button>
                   </div>
               </div>
           </div>
@@ -172,12 +76,136 @@
 
 <script>
 // @ is an alias to /src
+import { mapState, mapActions, mapMutations } from 'vuex'
+import io from 'socket.io-client';
 
 export default {
-  name: 'home',
-  components: {
+    name: 'home',
+    data(){
+        return {
+            ws: null,
+            msg: "",
+            friend_list: [],
+            to: {},
+            msg_list: [],
+            new_msg: {}
+        }
+    },
+    computed: {
+        ...mapState(['user']),
+    },
+    async created(){
+        // console.log("@@@@@@", this.user, this.to);
+        if(!this.user._id){
+            this.to_path({
+                $router: this.$router,
+                path: "/login"
+            })   
 
-  }
+            return;
+        }
+
+        
+        await this.init_socket();
+        this.friend_list = await this.init_friend_list();
+        // for (let index = 0; index < this.friend_list.length; index++) {
+        //     let f = this.friend_list[index];
+        //     f.has_new_msg = false;
+        // }
+    },
+    methods:{
+        ...mapMutations(["to_path"]),
+        ...mapActions(["init_friend_list", "init_msg_list"]),
+        async start_chat(to){
+            let new_m = this.new_msg[to.user_name];
+            if(new_m && new_m.show_new){
+                new_m.show_new = false;
+            }
+
+            this.to = to;
+            let obj = {
+                from: this.user.user_name,
+                to: this.to.user_name
+            }
+            
+            this.msg_list = await this.init_msg_list(obj);
+            this.scroll_bottom();
+        },
+        scroll_bottom(){
+            setTimeout(()=>{
+                var scrollDom = document.getElementById('msg_box');
+                scrollDom.scrollTop = scrollDom.scrollHeight;
+            },50)
+        },
+        send_msg(){
+            if(this.msg.length==0){
+                return;
+            }
+
+            if(!this.to){
+                return;
+            }
+
+            let user_msg = {
+                from: this.user,
+                to: this.to,
+                msg_type: "txt",
+                txt: this.msg
+            }
+
+            this.ws.emit("send_to_user", user_msg);
+
+            this.msg = "";
+
+        },
+        init_socket(){
+
+            this.ws = io('ws://localhost:3001');
+
+            this.ws.on('connection', (socket)=>{
+                console.log("连接成功");
+                this.ws.emit("bind", this.user);
+            
+                this.ws.on('bind', (socket)=>{
+                    if(socket.code == 200){
+                        console.log("用户绑定成功");
+                    }else{
+                        console.log("用户绑定失败");
+                    }
+                })
+            })
+
+            this.ws.on('user_msg', (socket)=>{
+                console.log("user_msg", socket);
+                this.msg_list.push(socket);
+
+                if(this.msg_list.length>50){
+                    this.msg_list.shift();
+                }
+                
+                if(socket.from.user_name != this.user.user_name){
+                    // this.to.txt = socket.txt;
+                    // this.to.time = socket.time;
+                    this.new_msg[socket.from.user_name] = socket;
+                    if(socket.from.user_name == this.to.user_name){
+                        this.new_msg[socket.from.user_name].show_new = false;
+                    }else{
+                        this.new_msg[socket.from.user_name].show_new = true;
+                    }
+                    
+
+                    this.$Notice.open({
+                        title: socket.from.user_name,
+                        desc: socket.txt,
+                        duration: 2
+                    });
+                }
+                
+                this.scroll_bottom();
+            })
+
+        }
+    }
 }
 </script>
 <style lang="less" scoped>
@@ -242,6 +270,8 @@ export default {
             height: 100%;
             width: calc(100% - 100px);
             .name{
+                // display: inline-block;
+                // line-height: 45px;
                 font-size: 14px;
                 color: #000000;
             }
@@ -346,14 +376,14 @@ export default {
                 }
             }
             .txt_2{
-                max-width: calc(100% - 130px);
+                max-width: calc(100% - 160px);
                 p{
                     font-size: 14px;
                     color: #000000;
                 }
             }
             .txt_3{
-                width: 50px;
+                width: 70px;
                 p{
                     color: #999999;
                 }

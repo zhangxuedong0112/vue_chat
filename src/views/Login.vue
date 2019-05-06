@@ -5,14 +5,14 @@
                 <p slot="title">在线聊天室内测版</p>
                 <div class="body">
                     <Form ref="user" :model="user" :rules="ruleInline" inline>
-                        <FormItem prop="user">
-                            <Input type="text" v-model="user.user" placeholder="账号">
+                        <FormItem prop="user_name">
+                            <Input type="text" v-model="user.user_name" placeholder="账号">
                                 <Icon type="ios-person-outline" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         <br/>
-                        <FormItem prop="password">
-                            <Input type="password" v-model="user.password" placeholder="密码">
+                        <FormItem prop="pwd">
+                            <Input type="password" v-model="user.pwd" placeholder="密码">
                                 <Icon type="ios-lock-outline" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
@@ -30,8 +30,8 @@
                 <p slot="title">注册聊天室账号</p>
                 <div class="body">
                     <Form ref="user" :model="user" :rules="ruleInline" inline>
-                        <FormItem prop="user">
-                            <Input type="text" v-model="user.user" placeholder="账号">
+                        <FormItem prop="user_name">
+                            <Input type="text" v-model="user.user_name" placeholder="账号">
                                 <Icon type="ios-person-outline" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
@@ -42,13 +42,13 @@
                             </Input>
                         </FormItem>
                         <br/>
-                        <FormItem prop="password">
-                            <Input type="password" v-model="user.password" placeholder="密码">
+                        <FormItem prop="pwd">
+                            <Input type="password" v-model="user.pwd" placeholder="密码">
                                 <Icon type="ios-lock-outline" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         <br/>
-                        <FormItem prop="password">
+                        <FormItem prop="password2">
                             <Input type="password" v-model="user.password2" placeholder="再次输入密码">
                                 <Icon type="ios-lock-outline" slot="prepend"></Icon>
                             </Input>
@@ -57,7 +57,8 @@
                     </Form>
                 </div>
                 <div class="footer">
-                    <Button type="info" class="margin_none" @click="check_page('login')">注册</Button>
+                    <Button type="success" @click="go_register">注册</Button>
+                    <Button type="info" @click="check_page('login')">返回</Button>
                 </div>
             </Card>
         </div>
@@ -73,37 +74,107 @@ export default {
         return{
             page: "login",
             user: {
-                user: '',
-                password: '',
+                user_name: '',
+                pwd: '',
                 password2: '',
                 name: "",
             },
             ruleInline: {
-                user: [
+                user_name: [
                     { required: true, message: '请输入账号', trigger: 'blur' }
                 ],
                 name: [
                     { required: true, message: '请输入昵称', trigger: 'blur' }
                 ],
-                password: [
+                pwd: [
                     { required: true, message: '请输入密码', trigger: 'blur' },
+                    { type: 'string', min: 6, message: '密码长度最少6位', trigger: 'blur' }
+                ],
+                password2: [
+                    { required: true, message: '请再次输入密码', trigger: 'blur' },
                     { type: 'string', min: 6, message: '密码长度最少6位', trigger: 'blur' }
                 ]
             }
         }
     },
+    created(){
+        this.user.user_name = window.localStorage.getItem("user_name")||'';
+        this.user.pwd = window.localStorage.getItem("pwd")||'';
+    },
     methods: {
         ...mapMutations(["to_path"]),
-        ...mapActions(["register"]),
+        ...mapActions(["register","login"]),
         check_page(page){
             this.page = page || login;
         },
-        go_home(){
-            window.localStorage.setItem("token","token");
-            this.to_path({
-                $router: this.$router,
-                path: "/home"
-            })
+        async go_home(){
+            if(!this.user.user_name){
+                this.$Message.error('请输入用户名');
+                return;
+            }
+
+            if(!this.user.pwd){
+                this.$Message.error('请输入密码');
+                return;
+            }
+
+            try {
+                let r = await this.login(this.user);
+
+                window.localStorage.setItem("user_name", this.user.user_name);
+                window.localStorage.setItem("pwd", this.user.pwd);
+
+                this.to_path({
+                    $router: this.$router,
+                    path: "/home"
+                })    
+            } catch (error) {
+                this.$Message.error(error);
+                console.error(error)
+            }
+            
+        },
+        async go_register(){
+            if(!this.user.user_name){
+                this.$Message.error('请输入用户名');
+                return;
+            }
+
+            if(!this.user.name){
+                this.$Message.error('请输入昵称');
+                return;
+            }
+
+            if(!this.user.pwd){
+                this.$Message.error('请输入密码');
+                return;
+            }
+
+            if(!this.user.password2){
+                this.$Message.error('请输入确认密码');
+                return;
+            }
+
+            if(this.user.pwd != this.user.password2){
+                this.$Message.error('两次输入密码不一致');
+                return;
+            }
+
+            if(this.user.pwd.length<6){
+                this.$Message.error('密码长度最少6位');
+                return;
+            }
+
+            try {
+                await this.register(this.user);    
+                this.check_page('login');
+            } catch (error) {
+                this.$Message.error(error);
+                console.error(error)
+            }
+            
+
+            
         }
     },
 }

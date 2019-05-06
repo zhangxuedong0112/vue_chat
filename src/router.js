@@ -13,7 +13,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/login'
     },
     {
       path: '/home',
@@ -38,24 +38,24 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
   // 根据 token 和 path.name 确定路由跳转行为
-  const token = localStorage.getItem("token");
-  if (token) {
-    if (to.name == "login") {
-      next({
-        name: "home"
-      });
-    } else {
+  // const token = localStorage.getItem("token");
+  // if (token) {
+  //   if (to.name == "login") {
+  //     next({
+  //       name: "home"
+  //     });
+  //   } else {
       next();
-    }
-  } else {
-    if (["login", "modifyPwd", "firstPwd"].includes(to.name)) {
-      next();
-    } else {
-      next({
-        name: "login"
-      });
-    }
-  }
+  //   }
+  // } else {
+  //   if (["login", "modifyPwd", "firstPwd"].includes(to.name)) {
+  //     next();
+  //   } else {
+  //     next({
+  //       name: "login"
+  //     });
+  //   }
+  // }
 });
 
 router.afterEach(to => {
