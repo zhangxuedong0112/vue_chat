@@ -138,7 +138,7 @@ export default {
             },50)
         },
         send_msg(){
-            if(this.msg.length==0){
+            if(this.msg.trim().length==0){
                 return;
             }
 
@@ -159,36 +159,47 @@ export default {
 
         },
         init_socket(){
+            let serveip = window.localStorage.getItem("serveip");
 
-            this.ws = io('ws://localhost:3001');
+            if(!serveip){
+                serveip = "localhost";
+            }
+
+            this.ws = io('ws://'+serveip+':3000');
 
             this.ws.on('connection', (socket)=>{
                 console.log("连接成功");
                 this.ws.emit("bind", this.user);
-            
-                this.ws.on('bind', (socket)=>{
-                    if(socket.code == 200){
-                        console.log("用户绑定成功");
-                    }else{
-                        console.log("用户绑定失败");
-                    }
-                })
+            })
+
+            this.ws.on('bind', (socket)=>{
+                if(socket.code == 200){
+                    console.log("用户绑定成功");
+                }else{
+                    console.log("用户绑定失败");
+                }
             })
 
             this.ws.on('user_msg', (socket)=>{
                 console.log("user_msg", socket);
-                this.msg_list.push(socket);
 
-                if(this.msg_list.length>50){
-                    this.msg_list.shift();
+                if(socket.from.user_name == this.to.user_name || socket.to.user_name == this.to.user_name){
+                    this.msg_list.push(socket);
+
+                    if(this.msg_list.length>50){
+                        this.msg_list.shift();
+                    }
                 }
-                
+
                 if(socket.from.user_name != this.user.user_name){
                     // this.to.txt = socket.txt;
                     // this.to.time = socket.time;
-                    this.new_msg[socket.from.user_name] = socket;
+                    // this.new_msg[socket.from.user_name] = socket;
+
+                    this.$set(this.new_msg,socket.from.user_name,socket)
                     if(socket.from.user_name == this.to.user_name){
                         this.new_msg[socket.from.user_name].show_new = false;
+                        
                     }else{
                         this.new_msg[socket.from.user_name].show_new = true;
                     }
@@ -199,6 +210,8 @@ export default {
                         desc: socket.txt,
                         duration: 2
                     });
+
+                    console.log("2222", this.new_msg)
                 }
                 
                 this.scroll_bottom();

@@ -1,14 +1,23 @@
 import axios from "axios";
 
+let serveip = window.localStorage.getItem("serveip");
+
+if(!serveip){
+		serveip = "localhost";
+}
+
+let baseURL = '//'+serveip+':3000';
+
 const axiosInstance = axios.create({
 	headers: {
 	  // "X-Requested-With": "XMLHttpRequest",
 	//   'content-type': 'application/x-www-form-urlencoded',
 	//   "token": "1529029300212"
 	},
-	baseURL: process.env.VUE_APP_Api_Base_Url, // 设置 baseURL
+	baseURL: baseURL,//process.env.VUE_APP_Api_Base_Url, // 设置 baseURL
 	timeout: 15000 // 请求超时时间
 });
+
 
 // 添加请求拦截器
 axiosInstance.interceptors.request.use(function (config) {
